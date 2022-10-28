@@ -1,6 +1,6 @@
 import { createContext, useReducer} from "react";
 
-
+import { CreateAction } from "../utils/reducers/createAction";
 
 const addCartItem = (productToAdd, cartItems) => {
 
@@ -47,6 +47,11 @@ export const CartContext = createContext({
     removeAllFromCart: () => {},
     cartTotal: 0
 });
+
+const CART_ITEMS_ACTIONS = {
+    SET_CART_ITEMS:"SET_CART_ITEMS",
+    SET_IS_CART_OPEN: "SET_IS_CART_OPEN"
+}
  
 const INTIAL_STATE = {
     isCartOpen: false,
@@ -59,10 +64,15 @@ const cartReducer = (state, action) => {
     const {type, payload} = action;
     
     switch(type){
-        case "SET_CART_ITEMS":
+        case CART_ITEMS_ACTIONS.SET_CART_ITEMS:
             return {
                 ...state,
                 ...payload
+            }
+        case CART_ITEMS_ACTIONS.SET_IS_CART_OPEN:
+            return {
+                ...state,
+                isCartOpen:payload
             }
         default:
             throw new Error(`Unhandle type of ${Error} in set cart items`);
@@ -85,11 +95,11 @@ export const CartProvider = ({children}) => {
             return total + cartItem.quantity * cartItem.price;
         }, 0);
 
-        dispatch({type:"SET_CART_ITEMS", payload:{cartItems: newCartItems, cartCount:newCartCount, cartTotal:newCartTotal } })
+        dispatch(CreateAction("SET_CART_ITEMS", {cartItems: newCartItems, cartCount:newCartCount, cartTotal:newCartTotal}))
     }
 
     const setisCartOpen = (value) => {
-        dispatch({type:"SET_CART_ITEMS", payload:{isCartOpen: value}});
+        dispatch(CreateAction("SET_IS_CART_OPEN",value));
     }
 
     const addToCartItems = (productToAdd) => {
