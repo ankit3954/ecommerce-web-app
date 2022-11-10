@@ -4,7 +4,6 @@ import { Outlet, Link } from "react-router-dom";
 import CartIcon from "../../components/cart-icon/cart-icon";
 import CardDropdown from "../../components/crad-dropdown/card-dropdown";
 
-import { UserContext } from "../../contexts/userContext";
 import { CartContext } from "../../contexts/cartContext";
 
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
@@ -15,9 +14,8 @@ import { selectCurrentUser } from "../../store/user/user-selector";
 
 const Navigation = () => {
 
-  // const {currentUser} = useContext(UserContext);
   const currentUser = useSelector(selectCurrentUser);
-  const {isCartOpen, setisCartOpen} = useContext(CartContext);
+  const {isCartOpen} = useContext(CartContext);
  
 
     return (
